@@ -1,12 +1,14 @@
 package com.oshabashov.java_wallswap;
 
 import com.dropbox.core.*;
+import com.dropbox.core.v2.DbxClientV2;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Handles the endpoints related to authorizing this app with the Dropbox API
@@ -33,10 +35,25 @@ public class DropboxAuth {
         return getWebAuth(request).authorize(authRequest);
     }
 
+    private String getRedirectUri(final HttpServletRequest request) {
+        return common.getUrl(request, "/oauth2callback");
+    }
+
+    private DbxSessionStore getSessionStore(final HttpServletRequest request) {
+        // Select a spot in the session for DbxWebAuth to store the CSRF token.
+        HttpSession session    = request.getSession(true);
+        String      sessionKey = "dropbox-auth-csrf-token";
+        return new DbxStandardSessionStore(session, sessionKey);
+    }
+
+    private DbxWebAuth getWebAuth(final HttpServletRequest request) {
+        return new DbxWebAuth(common.getRequestConfig(request), common.dbxAppInfo);
+    }
+
     /**
      * The Dropbox API authorization page will redirect the user's browser to this page.
      */
-    public void doFinish(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+    public void doFinish(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException, DbxException {
         DbxAuthFinish authFinish;
         try {
             authFinish = getWebAuth(request).finishFromRedirect(
@@ -70,23 +87,20 @@ public class DropboxAuth {
             return;
         }
 
-        // We have an Dropbox API access token now.  This is what will let us make Dropbox API
-        // calls.  Save it in the database entry for the current user.
-        System.out.println(authFinish.getAccessToken());
-    }
+        // We have an Dropbox API access token now
+        String accessToken = authFinish.getAccessToken();
 
-    private DbxSessionStore getSessionStore(final HttpServletRequest request) {
-        // Select a spot in the session for DbxWebAuth to store the CSRF token.
-        HttpSession session    = request.getSession(true);
-        String      sessionKey = "dropbox-auth-csrf-token";
-        return new DbxStandardSessionStore(session, sessionKey);
-    }
+        // Get current user info from Dropbox API
+        DbxClientV2 client = new DbxClientV2(
+          common.getRequestConfig(request),
+          accessToken, common.dbxAppInfo.getHost()
+        );
 
-    private DbxWebAuth getWebAuth(final HttpServletRequest request) {
-        return new DbxWebAuth(common.getRequestConfig(request), common.dbxAppInfo);
-    }
-
-    private String getRedirectUri(final HttpServletRequest request) {
-        return common.getUrl(request, "/oauth2callback");
+        // Create User and store it in Database
+        try {
+            common.createUserByDropbox(client.users().getCurrentAccount(), accessToken);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

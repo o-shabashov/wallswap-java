@@ -1,6 +1,7 @@
 package com.oshabashov.java_wallswap;
 
 import com.dropbox.core.DbxAppInfo;
+import com.dropbox.core.DbxException;
 import com.dropbox.core.json.JsonReader;
 import com.oshabashov.java_wallswap.model.Wallpaper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +33,7 @@ public class IndexController {
   @Autowired
   private HttpServletResponse response;
 
-  private IndexController() {
+  private IndexController() throws SQLException, ClassNotFoundException {
     String     argAppInfo = "app.json";
     DbxAppInfo dbxAppInfo = null; // TODO dirty hack, can`t imagine something smarter
 
@@ -53,7 +54,7 @@ public class IndexController {
   @RequestMapping(value = "/")
   public String index(Model model) throws SQLException, ClassNotFoundException {
     if (this.allWallpapers.isEmpty()) {
-      this.allWallpapers = Wallpaper.findAll();
+      this.allWallpapers = common.getAllWallpapers();
     }
     model.addAttribute("wallpapers", this.allWallpapers);
     model.addAttribute("isGuest", true);
@@ -61,13 +62,13 @@ public class IndexController {
   }
 
   @RequestMapping(value = "/login")
-  public String login(){
+  public String login() {
     return "redirect:" + dropboxAuth.doStart(request);
   }
 
   @RequestMapping(value = "/oauth2callback")
-  public String oauth2callback() throws IOException, ServletException {
+  public String oauth2callback() throws IOException, ServletException, DbxException {
     dropboxAuth.doFinish(request, response);
-    return "redirect:index";
+    return "redirect:/";
   }
 }
