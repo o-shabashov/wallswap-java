@@ -1,4 +1,4 @@
-package com.oshabashov.model;
+package com.oshabashov.java_wallswap.model;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -6,8 +6,8 @@ import java.util.List;
 
 public class Wallpaper {
   private Integer id;
-  private String thumb_url;
-  private String url;
+  private String  thumb_url;
+  private String  url;
 
   public Wallpaper(String thumb_url, String url) {
     this.thumb_url = thumb_url;
@@ -40,13 +40,13 @@ public class Wallpaper {
 
   public static List<Wallpaper> findAll() throws ClassNotFoundException, SQLException {
     String myDriver = "org.gjt.mm.mysql.Driver";
-    String myUrl = "jdbc:mysql://localhost/wallswap";
+    String myUrl    = "jdbc:mysql://localhost/wallswap?autoReconnect=true&useSSL=false";
     Class.forName(myDriver);
     Connection conn = DriverManager.getConnection(myUrl, "root", "root");
 
-    String query = "SELECT thumb_url,url FROM wallpaper";
-    Statement st = conn.createStatement();
-    ResultSet rs = st.executeQuery(query);
+    String          query      = "SELECT thumb_url,url FROM wallpaper";
+    Statement       st         = conn.createStatement();
+    ResultSet       rs         = st.executeQuery(query);
     List<Wallpaper> wallpapers = new ArrayList<>();
 
     while (rs.next()) {

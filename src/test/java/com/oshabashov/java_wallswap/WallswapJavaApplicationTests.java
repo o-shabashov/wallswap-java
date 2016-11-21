@@ -1,4 +1,4 @@
-package com.oshabashov;
+package com.oshabashov.java_wallswap;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

@@ -1,4 +1,4 @@
-package com.oshabashov;
+package com.oshabashov.java_wallswap;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
