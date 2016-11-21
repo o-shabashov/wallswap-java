@@ -92,7 +92,7 @@
 </section>
 
 <div align="center">
-    <a href="/login" th:if="${isGuest} == true">
+    <a href="/login" th:if="${isAuthenticated} == null">
         <img src="/images/wallswap-02.png" alt="" width="250"/>
     </a>
 </div>

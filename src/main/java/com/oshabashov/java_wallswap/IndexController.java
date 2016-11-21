@@ -56,8 +56,9 @@ public class IndexController {
     if (this.allWallpapers.isEmpty()) {
       this.allWallpapers = common.getAllWallpapers();
     }
+    System.out.println(request.getSession().getAttribute("isAuthenticated"));
     model.addAttribute("wallpapers", this.allWallpapers);
-    model.addAttribute("isGuest", true);
+    model.addAttribute("isAuthenticated", request.getSession().getAttribute("isAuthenticated"));
     return "index";
   }
 
@@ -69,6 +70,8 @@ public class IndexController {
   @RequestMapping(value = "/oauth2callback")
   public String oauth2callback() throws IOException, ServletException, DbxException {
     dropboxAuth.doFinish(request, response);
+    request.getSession().setAttribute("isAuthenticated", true);
+
     return "redirect:/";
   }
 }
