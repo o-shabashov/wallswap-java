@@ -81,8 +81,6 @@ public class Common {
       preparedStmt.setString(3, UUID.randomUUID().toString());
       preparedStmt.setString(4, account.getAccountId());
       preparedStmt.execute();
-
-      connection.close();
     }
 
     // TODO replace by Hibernate ORM
