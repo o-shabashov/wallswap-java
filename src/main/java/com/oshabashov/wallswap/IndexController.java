@@ -1,9 +1,9 @@
-package com.oshabashov.java_wallswap;
+package com.oshabashov.wallswap;
 
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxException;
 import com.dropbox.core.json.JsonReader;
-import com.oshabashov.java_wallswap.model.Wallpaper;
+import com.oshabashov.wallswap.model.Wallpaper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

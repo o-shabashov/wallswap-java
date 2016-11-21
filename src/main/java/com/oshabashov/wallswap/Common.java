@@ -1,11 +1,11 @@
-package com.oshabashov.java_wallswap;
+package com.oshabashov.wallswap;
 
 import com.dropbox.core.DbxAppInfo;
 import com.dropbox.core.DbxRequestConfig;
 import com.dropbox.core.util.LangUtil;
 import com.dropbox.core.v2.users.FullAccount;
-import com.oshabashov.java_wallswap.model.User;
-import com.oshabashov.java_wallswap.model.Wallpaper;
+import com.oshabashov.wallswap.model.User;
+import com.oshabashov.wallswap.model.Wallpaper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.PrintWriter;

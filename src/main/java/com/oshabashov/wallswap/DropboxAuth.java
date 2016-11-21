@@ -1,4 +1,4 @@
-package com.oshabashov.java_wallswap;
+package com.oshabashov.wallswap;
 
 import com.dropbox.core.*;
 import com.dropbox.core.v2.DbxClientV2;

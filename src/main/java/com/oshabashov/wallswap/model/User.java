@@ -1,4 +1,4 @@
-package com.oshabashov.java_wallswap.model;
+package com.oshabashov.wallswap.model;
 
 public class User {
   public String email;
