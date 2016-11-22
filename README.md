@@ -12,27 +12,24 @@ The project is just for fun and test programming skills. It consists of two part
 See [https://github.com/o-shabashov/wallswap-java-crawler](https://github.com/o-shabashov/wallswap-java-crawler)
 
 ## Installation
-1. Create MySQL database `wallswap` and import `wallswap.sql`
-2. Create [Dropbox App](https://www.dropbox.com/developers/apps/create) and fill `app.json`
+* Create MySQL database `wallswap` and import `wallswap.sql`
+* Create [Dropbox App](https://www.dropbox.com/developers/apps/create) and fill `app.json`
 ```json
 {
   "key": "APP_KEY_HERE",
   "secret": "APP_SECRET_HERE"
 }
 ```
-
-3. Redirect URL for Dropbox callback:
+* Redirect URL for Dropbox callback:
 ```
 http://localhost:8080/oauth2callback
 ```
-
-4. Install gradle dependencies:
+* Install gradle dependencies:
 ```bash
 cd wallswap-java
 gradle build
 ```
-
-5. Run server:
+* Run server:
 ```bash
 gradle bootRun
 ```
