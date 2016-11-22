@@ -74,7 +74,7 @@ public class Common {
     preparedStmt.close();
 
     if (count == 0) {
-      query = " INSERT INTO user (email, access_token, auth_key, dropbox_id) VALUES (?, ?, ?, ?)";
+      query = "INSERT INTO user (email, access_token, auth_key, dropbox_id) VALUES (?, ?, ?, ?)";
       preparedStmt = connection.prepareStatement(query);
       preparedStmt.setString(1, account.getEmail());
       preparedStmt.setString(2, accessToken);
